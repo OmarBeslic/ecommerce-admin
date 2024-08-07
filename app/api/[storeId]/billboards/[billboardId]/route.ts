@@ -14,7 +14,7 @@ export async function GET(
     }
    
 
-    const billboard = await prismadb.store.findUnique({
+    const billboard = await prismadb.billboard.findUnique({
       where: {
         id: params?.billboardId,
       },
@@ -63,7 +63,7 @@ export async function PATCH(
       });
     }
 
-    const billboard = await prismadb.billboard.update({
+    const billboard = await prismadb.billboard.updateMany({
       where: {
         id: params?.billboardId,
       },
@@ -109,7 +109,7 @@ export async function DELETE(
       });
     }
 
-    const billboard = await prismadb.store.deleteMany({
+    const billboard = await prismadb.billboard.deleteMany({
       where: {
         id: params?.billboardId,
       },

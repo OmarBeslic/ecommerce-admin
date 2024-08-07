@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { z } from "zod";
+import * as z from "zod";
 import toast from "react-hot-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Billboard } from "@prisma/client";
 import { Trash } from "lucide-react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -19,10 +21,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
 import ImageUpload from "@/components/ui/image-upload";
 
@@ -75,8 +75,8 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}/billboards/${params.billboardId}`);
-      router.push("/");
+      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
+      router.push(`/${params.storeId}/billboards`);
       router.refresh();
       toast.success("Billboard deleted.");
     } catch (error) {
@@ -160,7 +160,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
           </Button>
         </form>
       </Form>
-      <Separator />
     </>
   );
 };
